@@ -20,6 +20,12 @@ Run the api:
 npm run dev -w api
 ```
 
+Run the api tests:
+
+```bash
+npm run test -w api
+```
+
 The app and api restart on code change.
 
 Format code:
