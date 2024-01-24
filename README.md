@@ -23,6 +23,7 @@ npm run dev -w api
 The app and api restart on code change.
 
 Format code:
+
 ```bash
 npm run format
 ```
