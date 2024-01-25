@@ -9,22 +9,22 @@ import {
   Redirect,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { isValidUrl, URL_KEY_LENGTH } from './utils';
+import { isUrlKeyValid, isValidUrl } from './utils';
 import { UrlItem } from './interfaces';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get(':shortUrl')
+  @Get(':key')
   @Redirect(undefined, 301)
-  async redirect(@Param() params: { shortUrl: string }): Promise<any> {
-    if (params.shortUrl?.length != URL_KEY_LENGTH)
+  async redirect(@Param() params: { key: string }): Promise<any> {
+    if (!isUrlKeyValid(params.key))
       throw new HttpException(
         'La clé transmise est incorrecte.',
         HttpStatus.BAD_REQUEST,
       );
-    const url = await this.appService.getLongFromShortUrl(params.shortUrl);
+    const url: string = await this.appService.getLongFromShortUrl(params.key);
     if (!url)
       throw new HttpException('La clé est introuvable.', HttpStatus.NOT_FOUND);
     return { url };
